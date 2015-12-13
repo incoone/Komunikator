@@ -10,7 +10,6 @@ namespace Server
 {
     class ServerThread : BaseThread
     {
-        
         private TcpClient client;
         public TcpClient Client() { return client; }
 
@@ -26,24 +25,42 @@ namespace Server
 
         public void start()
         {
+            //http://csharp.net-informations.com/communications/csharp-multi-threaded-server-socket.htm
             log("Podlaczono nowego klienta");
             NetworkStream ntStream = client.GetStream();
+            StringBuilder sb = new StringBuilder();
             byte[] bytesFrom = new byte[10025];
-            ntStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
-            string dataFromClient = Encoding.ASCII.GetString(bytesFrom);
-            log(" >> Data from client - " + dataFromClient);
-            StreamWriter out_ = new StreamWriter(client.GetStream());
-            //BufferedStream in_ = new BufferedStream();
+            string dataFromClient = null;
+            try {
+                while(true)
+                {
+                    try
+                    {
+                        ntStream.Read(bytesFrom, 0, (int)client.ReceiveBufferSize);
+                        dataFromClient = System.Text.Encoding.ASCII.GetString(bytesFrom);
+                        dataFromClient = dataFromClient.Substring(0, dataFromClient.IndexOf("$"));
+                        Console.WriteLine(" >> " + "From client-" + dataFromClient);
+                        /*
+                        
+                        ntStream.BeginRead(bytesFrom,0,(int)client.ReceiveBufferSize,);
 
-            try
-            {
+    */
+                        //string dataFromClient = Encoding.ASCII.GetString(bytesFrom);
+                        log(" >> Data from client - ");// + dataFromClient);
+                        //StreamWriter out_ = new StreamWriter(client.GetStream());
+                        //BufferedStream in_ = new BufferedStream();
+                    }
+                    catch (Exception ex)
+                    {
+                        log(ex.ToString());
+                        //throw;
+                    }
+                }
 
-                //string out = new string()
-            }
-            catch (Exception ex)
+            } catch (Exception ex)
             {
                 log(ex.ToString());
-                throw;
+                //throw;
             }
 
             log("klient rozlaczony");

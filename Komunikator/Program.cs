@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
+
 namespace Server
 {
     class Program
@@ -23,6 +24,7 @@ namespace Server
             log("Server uruchomiony");
             for (;;)
             {
+                
                 TcpClient client = ssock.AcceptTcpClient();
                 //log("Polaczono klienta");
                 ServerThread thread = new ServerThread(client);
