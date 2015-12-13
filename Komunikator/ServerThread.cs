@@ -48,7 +48,7 @@ namespace Server
                         //string dataFromClient = Encoding.ASCII.GetString(bytesFrom);
                         log(" >> Data from client - ");// + dataFromClient);
                         //StreamWriter out_ = new StreamWriter(client.GetStream());
-                        //BufferedStream in_ = new BufferedStream();
+                        //BufferedStream in_ = new BufferedStream(); 
                     }
                     catch (Exception ex)
                     {
